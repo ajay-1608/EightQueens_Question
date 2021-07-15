@@ -5,13 +5,13 @@ public class GameStrategy {
 	private int getColumn(int cellId) {
 		// WRITE YOUR LOGIC HERE...................................		
 
-		return 0;	// just for the heck of it
+		return cellId % 8;	// just for the heck of it
 	}
 	
 	private int getRow(int cellId) {
 		// WRITE YOUR LOGIC HERE....................................
 		
-		return 0;	// just for the heck of it
+		return cellId / 8;	// just for the heck of it
 	}
 
 	public boolean isValidPosition(int cellId) {
@@ -29,6 +29,54 @@ public class GameStrategy {
 			WRITE YOUR LOGIC HERE...............................
 
 		*/
+		int i, j;
+		
+		// Check if row contains queen		
+		for (int c = 0; c < 8 && isValid; c++) {
+			if (this.placedQueens[row][c])
+				isValid = false;
+		}
+		
+		// Check if column contains queen
+		for (int r = 0; r < 8 && isValid; r++) {
+			if (this.placedQueens[r][col])
+				isValid = false;
+		}
+		
+		// Check top left diagonal
+		i = row-1;
+		j = col-1;
+		while (i >= 0 && j >= 0 && isValid) {
+			if (this.placedQueens[i--][j--])
+				isValid = false;
+		}
+		
+		// Check to top right diagonal
+		i = row-1;
+		j = col+1;
+		while (i >= 0 && j < 7 && isValid) {
+			if (this.placedQueens[i--][j++])
+				isValid = false;
+		}
+		
+		// Check to bottom left diagonal
+		i = row+1;
+		j = col-1;
+		while (i < 7 && j >= 0 && isValid) {
+			if (this.placedQueens[i++][j--])
+				isValid = false;
+		}
+		
+		// Check to bottom right diagonal
+		i = row+1;
+		j = col+1;
+		while (i < 7 && j < 7 && isValid) {
+			if (this.placedQueens[i++][j++])
+				isValid = false;
+		}
+
+		this.placedQueens[row][col] = true;
+		this.numQueens++;
 		return isValid;
 	}
 }
